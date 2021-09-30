@@ -22,3 +22,7 @@ type GetNowWeatherUsecase struct {
 func NewGetNowWeatherUsecase(repo NowWeatherRepo, logger *log.Helper) *GetNowWeatherUsecase {
 	return &GetNowWeatherUsecase{repo: repo, log: logger}
 }
+
+func (s *GetNowWeatherUsecase) GetNow() error {
+	return nil
+}

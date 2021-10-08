@@ -23,6 +23,8 @@ func NewGetNowWeatherUsecase(repo NowWeatherRepo, logger *log.Helper) *GetNowWea
 	return &GetNowWeatherUsecase{repo: repo, log: logger}
 }
 
-func (s *GetNowWeatherUsecase) GetNow() error {
-	return nil
+func (s *GetNowWeatherUsecase) GetNow() (Weather, error) {
+	return Weather{
+		"HeiHei",
+	}, nil
 }

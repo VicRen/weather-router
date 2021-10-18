@@ -2,6 +2,7 @@ package biz
 
 import (
 	"context"
+
 	"github.com/go-kratos/kratos/v2/log"
 )
 
@@ -29,4 +30,7 @@ func (uc *GreeterUsecase) Create(ctx context.Context, g *Greeter) error {
 
 func (uc *GreeterUsecase) Update(ctx context.Context, g *Greeter) error {
 	return uc.repo.UpdateGreeter(ctx, g)
+}
+
+type WeatherRepo interface {
 }

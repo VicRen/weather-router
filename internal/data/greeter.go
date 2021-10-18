@@ -29,3 +29,12 @@ func (r *greeterRepo) CreateGreeter(ctx context.Context, g *biz.Greeter) error {
 func (r *greeterRepo) UpdateGreeter(ctx context.Context, g *biz.Greeter) error {
 	return nil
 }
+
+type weatherRepo struct {
+	heWeather *HeWeather
+	log       *log.Helper
+}
+
+func NewWeatherRepo(weather *HeWeather, logger log.Logger) biz.WeatherRepo {
+	return &weatherRepo{}
+}

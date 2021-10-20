@@ -2,30 +2,24 @@ package service
 
 import (
 	"context"
+	"weather-router/internal/biz"
+
+	"github.com/go-kratos/kratos/v2/log"
 
 	pb "weather-router/api/weather"
 )
 
 type WeatherService struct {
 	pb.UnimplementedWeatherServer
+
+	uc  *biz.GetNowWeatherUsecase
+	log *log.Helper
 }
 
-func NewWeatherService() *WeatherService {
-	return &WeatherService{}
+func NewWeatherService(uc *biz.GetNowWeatherUsecase, logger log.Logger) *WeatherService {
+	return &WeatherService{uc: uc, log: log.NewHelper(logger)}
 }
 
-func (s *WeatherService) CreateWeather(ctx context.Context, req *pb.CreateWeatherRequest) (*pb.CreateWeatherReply, error) {
-	return &pb.CreateWeatherReply{}, nil
-}
-func (s *WeatherService) UpdateWeather(ctx context.Context, req *pb.UpdateWeatherRequest) (*pb.UpdateWeatherReply, error) {
-	return &pb.UpdateWeatherReply{}, nil
-}
-func (s *WeatherService) DeleteWeather(ctx context.Context, req *pb.DeleteWeatherRequest) (*pb.DeleteWeatherReply, error) {
-	return &pb.DeleteWeatherReply{}, nil
-}
-func (s *WeatherService) GetWeather(ctx context.Context, req *pb.GetWeatherRequest) (*pb.GetWeatherReply, error) {
-	return &pb.GetWeatherReply{}, nil
-}
-func (s *WeatherService) ListWeather(ctx context.Context, req *pb.ListWeatherRequest) (*pb.ListWeatherReply, error) {
-	return &pb.ListWeatherReply{}, nil
+func (s *WeatherService) GetNowWeather(ctx context.Context, req *pb.GetNowWeatherRequest) (*pb.GetNowWeatherResponse, error) {
+	return &pb.GetNowWeatherResponse{}, nil
 }

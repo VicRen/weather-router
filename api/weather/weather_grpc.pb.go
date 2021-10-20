@@ -18,11 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WeatherClient interface {
-	CreateWeather(ctx context.Context, in *CreateWeatherRequest, opts ...grpc.CallOption) (*CreateWeatherReply, error)
-	UpdateWeather(ctx context.Context, in *UpdateWeatherRequest, opts ...grpc.CallOption) (*UpdateWeatherReply, error)
-	DeleteWeather(ctx context.Context, in *DeleteWeatherRequest, opts ...grpc.CallOption) (*DeleteWeatherReply, error)
-	GetWeather(ctx context.Context, in *GetWeatherRequest, opts ...grpc.CallOption) (*GetWeatherReply, error)
-	ListWeather(ctx context.Context, in *ListWeatherRequest, opts ...grpc.CallOption) (*ListWeatherReply, error)
+	GetNowWeather(ctx context.Context, in *GetNowWeatherRequest, opts ...grpc.CallOption) (*GetNowWeatherResponse, error)
 }
 
 type weatherClient struct {
@@ -33,45 +29,9 @@ func NewWeatherClient(cc grpc.ClientConnInterface) WeatherClient {
 	return &weatherClient{cc}
 }
 
-func (c *weatherClient) CreateWeather(ctx context.Context, in *CreateWeatherRequest, opts ...grpc.CallOption) (*CreateWeatherReply, error) {
-	out := new(CreateWeatherReply)
-	err := c.cc.Invoke(ctx, "/api.weather.Weather/CreateWeather", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *weatherClient) UpdateWeather(ctx context.Context, in *UpdateWeatherRequest, opts ...grpc.CallOption) (*UpdateWeatherReply, error) {
-	out := new(UpdateWeatherReply)
-	err := c.cc.Invoke(ctx, "/api.weather.Weather/UpdateWeather", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *weatherClient) DeleteWeather(ctx context.Context, in *DeleteWeatherRequest, opts ...grpc.CallOption) (*DeleteWeatherReply, error) {
-	out := new(DeleteWeatherReply)
-	err := c.cc.Invoke(ctx, "/api.weather.Weather/DeleteWeather", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *weatherClient) GetWeather(ctx context.Context, in *GetWeatherRequest, opts ...grpc.CallOption) (*GetWeatherReply, error) {
-	out := new(GetWeatherReply)
-	err := c.cc.Invoke(ctx, "/api.weather.Weather/GetWeather", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *weatherClient) ListWeather(ctx context.Context, in *ListWeatherRequest, opts ...grpc.CallOption) (*ListWeatherReply, error) {
-	out := new(ListWeatherReply)
-	err := c.cc.Invoke(ctx, "/api.weather.Weather/ListWeather", in, out, opts...)
+func (c *weatherClient) GetNowWeather(ctx context.Context, in *GetNowWeatherRequest, opts ...grpc.CallOption) (*GetNowWeatherResponse, error) {
+	out := new(GetNowWeatherResponse)
+	err := c.cc.Invoke(ctx, "/api.weather.Weather/GetNowWeather", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -82,11 +42,7 @@ func (c *weatherClient) ListWeather(ctx context.Context, in *ListWeatherRequest,
 // All implementations must embed UnimplementedWeatherServer
 // for forward compatibility
 type WeatherServer interface {
-	CreateWeather(context.Context, *CreateWeatherRequest) (*CreateWeatherReply, error)
-	UpdateWeather(context.Context, *UpdateWeatherRequest) (*UpdateWeatherReply, error)
-	DeleteWeather(context.Context, *DeleteWeatherRequest) (*DeleteWeatherReply, error)
-	GetWeather(context.Context, *GetWeatherRequest) (*GetWeatherReply, error)
-	ListWeather(context.Context, *ListWeatherRequest) (*ListWeatherReply, error)
+	GetNowWeather(context.Context, *GetNowWeatherRequest) (*GetNowWeatherResponse, error)
 	mustEmbedUnimplementedWeatherServer()
 }
 
@@ -94,20 +50,8 @@ type WeatherServer interface {
 type UnimplementedWeatherServer struct {
 }
 
-func (UnimplementedWeatherServer) CreateWeather(context.Context, *CreateWeatherRequest) (*CreateWeatherReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateWeather not implemented")
-}
-func (UnimplementedWeatherServer) UpdateWeather(context.Context, *UpdateWeatherRequest) (*UpdateWeatherReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateWeather not implemented")
-}
-func (UnimplementedWeatherServer) DeleteWeather(context.Context, *DeleteWeatherRequest) (*DeleteWeatherReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteWeather not implemented")
-}
-func (UnimplementedWeatherServer) GetWeather(context.Context, *GetWeatherRequest) (*GetWeatherReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetWeather not implemented")
-}
-func (UnimplementedWeatherServer) ListWeather(context.Context, *ListWeatherRequest) (*ListWeatherReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListWeather not implemented")
+func (UnimplementedWeatherServer) GetNowWeather(context.Context, *GetNowWeatherRequest) (*GetNowWeatherResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNowWeather not implemented")
 }
 func (UnimplementedWeatherServer) mustEmbedUnimplementedWeatherServer() {}
 
@@ -122,92 +66,20 @@ func RegisterWeatherServer(s grpc.ServiceRegistrar, srv WeatherServer) {
 	s.RegisterService(&Weather_ServiceDesc, srv)
 }
 
-func _Weather_CreateWeather_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateWeatherRequest)
+func _Weather_GetNowWeather_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetNowWeatherRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WeatherServer).CreateWeather(ctx, in)
+		return srv.(WeatherServer).GetNowWeather(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.weather.Weather/CreateWeather",
+		FullMethod: "/api.weather.Weather/GetNowWeather",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WeatherServer).CreateWeather(ctx, req.(*CreateWeatherRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Weather_UpdateWeather_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateWeatherRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WeatherServer).UpdateWeather(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.weather.Weather/UpdateWeather",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WeatherServer).UpdateWeather(ctx, req.(*UpdateWeatherRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Weather_DeleteWeather_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteWeatherRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WeatherServer).DeleteWeather(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.weather.Weather/DeleteWeather",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WeatherServer).DeleteWeather(ctx, req.(*DeleteWeatherRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Weather_GetWeather_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetWeatherRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WeatherServer).GetWeather(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.weather.Weather/GetWeather",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WeatherServer).GetWeather(ctx, req.(*GetWeatherRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Weather_ListWeather_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListWeatherRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(WeatherServer).ListWeather(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.weather.Weather/ListWeather",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WeatherServer).ListWeather(ctx, req.(*ListWeatherRequest))
+		return srv.(WeatherServer).GetNowWeather(ctx, req.(*GetNowWeatherRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -220,24 +92,8 @@ var Weather_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*WeatherServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateWeather",
-			Handler:    _Weather_CreateWeather_Handler,
-		},
-		{
-			MethodName: "UpdateWeather",
-			Handler:    _Weather_UpdateWeather_Handler,
-		},
-		{
-			MethodName: "DeleteWeather",
-			Handler:    _Weather_DeleteWeather_Handler,
-		},
-		{
-			MethodName: "GetWeather",
-			Handler:    _Weather_GetWeather_Handler,
-		},
-		{
-			MethodName: "ListWeather",
-			Handler:    _Weather_ListWeather_Handler,
+			MethodName: "GetNowWeather",
+			Handler:    _Weather_GetNowWeather_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

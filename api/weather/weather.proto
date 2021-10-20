@@ -2,29 +2,19 @@ syntax = "proto3";
 
 package api.weather;
 
+import "google/api/annotations.proto";
+
 option go_package = "weather-router/api/weather;weather";
 option java_multiple_files = true;
 option java_package = "api.weather";
 
 service Weather {
-	rpc CreateWeather (CreateWeatherRequest) returns (CreateWeatherReply);
-	rpc UpdateWeather (UpdateWeatherRequest) returns (UpdateWeatherReply);
-	rpc DeleteWeather (DeleteWeatherRequest) returns (DeleteWeatherReply);
-	rpc GetWeather (GetWeatherRequest) returns (GetWeatherReply);
-	rpc ListWeather (ListWeatherRequest) returns (ListWeatherReply);
+	rpc GetNowWeather (GetNowWeatherRequest) returns (GetNowWeatherResponse) {
+		option (google.api.http) = {
+			get: "/weather/now"
+		};
+	}
 }
 
-message CreateWeatherRequest {}
-message CreateWeatherReply {}
-
-message UpdateWeatherRequest {}
-message UpdateWeatherReply {}
-
-message DeleteWeatherRequest {}
-message DeleteWeatherReply {}
-
-message GetWeatherRequest {}
-message GetWeatherReply {}
-
-message ListWeatherRequest {}
-message ListWeatherReply {}
+message GetNowWeatherRequest {}
+message GetNowWeatherResponse {}

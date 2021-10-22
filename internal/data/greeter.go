@@ -35,6 +35,13 @@ type weatherRepo struct {
 	log       *log.Helper
 }
 
-func NewWeatherRepo(weather *HeWeather, logger log.Logger) biz.WeatherRepo {
-	return &weatherRepo{}
+func (w *weatherRepo) GetNowWeather(ctx context.Context, weather *biz.Weather) error {
+	return nil
+}
+
+func NewWeatherRepo(weather *HeWeather, logger log.Logger) biz.NowWeatherRepo {
+	return &weatherRepo{
+		heWeather: weather,
+		log:       log.NewHelper(logger),
+	}
 }

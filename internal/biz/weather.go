@@ -10,16 +10,16 @@ type Weather struct {
 	Hello string
 }
 
-type NowWeatherRepo interface {
+type WeatherRepo interface {
 	GetNowWeather(ctx context.Context, greeter *Weather) error
 }
 
 type GetNowWeatherUsecase struct {
-	repo NowWeatherRepo
+	repo WeatherRepo
 	log  *log.Helper
 }
 
-func NewGetNowWeatherUsecase(repo NowWeatherRepo, logger log.Logger) *GetNowWeatherUsecase {
+func NewGetNowWeatherUsecase(repo WeatherRepo, logger log.Logger) *GetNowWeatherUsecase {
 	return &GetNowWeatherUsecase{repo: repo, log: log.NewHelper(logger)}
 }
 

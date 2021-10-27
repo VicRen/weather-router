@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package weather.v1;
+import "errors/errors.proto";
+
+option go_package = "weather-router/api/weather/v1;v1";
+option java_multiple_files = true;
+option java_package = "weather.v1.errors";
+option objc_class_prefix = "APIWeatherErrors";
+
+enum ErrorReason {
+  option (errors.default_code) = 500;
+
+  NOT_FOUND = 0 [(errors.code) = 404];
+  CONTENT_MISSING = 1 [(errors.code) = 400];
+}

@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-kratos/kratos/v2/log"
 
-	pb "weather-router/api/weather"
+	pb "weather-router/api/weather/v1"
 )
 
 type WeatherService struct {
@@ -17,7 +17,10 @@ type WeatherService struct {
 }
 
 func NewWeatherService(uc *biz.GetNowWeatherUsecase, logger log.Logger) *WeatherService {
-	return &WeatherService{uc: uc, log: log.NewHelper(logger)}
+	return &WeatherService{
+		uc:  uc,
+		log: log.NewHelper(logger),
+	}
 }
 
 func (s *WeatherService) GetNowWeather(ctx context.Context, req *pb.GetNowWeatherRequest) (*pb.GetNowWeatherResponse, error) {

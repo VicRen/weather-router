@@ -97,5 +97,5 @@ var Weather_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/weather/weather.proto",
+	Metadata: "api/weather/v1/weather.proto",
 }

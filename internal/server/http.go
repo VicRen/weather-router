@@ -2,7 +2,7 @@ package server
 
 import (
 	v1 "weather-router/api/helloworld/v1"
-	weather2 "weather-router/api/weather"
+	weather2 "weather-router/api/weather/v1"
 	"weather-router/internal/conf"
 	"weather-router/internal/service"
 

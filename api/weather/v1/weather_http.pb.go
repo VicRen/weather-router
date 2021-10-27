@@ -23,7 +23,7 @@ type WeatherHTTPServer interface {
 
 func RegisterWeatherHTTPServer(s *http.Server, srv WeatherHTTPServer) {
 	r := s.Route("/")
-	r.GET("/weather/now", _Weather_GetNowWeather0_HTTP_Handler(srv))
+	r.GET("/weather/v1/now", _Weather_GetNowWeather0_HTTP_Handler(srv))
 }
 
 func _Weather_GetNowWeather0_HTTP_Handler(srv WeatherHTTPServer) func(ctx http.Context) error {
@@ -59,7 +59,7 @@ func NewWeatherHTTPClient(client *http.Client) WeatherHTTPClient {
 
 func (c *WeatherHTTPClientImpl) GetNowWeather(ctx context.Context, in *GetNowWeatherRequest, opts ...http.CallOption) (*GetNowWeatherResponse, error) {
 	var out GetNowWeatherResponse
-	pattern := "/weather/now"
+	pattern := "/weather/v1/now"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation("/api.weather.Weather/GetNowWeather"))
 	opts = append(opts, http.PathTemplate(pattern))

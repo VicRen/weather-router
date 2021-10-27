@@ -11,7 +11,7 @@ option java_package = "api.weather";
 service Weather {
 	rpc GetNowWeather (GetNowWeatherRequest) returns (GetNowWeatherResponse) {
 		option (google.api.http) = {
-			get: "/weather/now"
+			get: "/weather/v1/now"
 		};
 	}
 }

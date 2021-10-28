@@ -20,26 +20,17 @@ import (
 
 // initApp init kratos application.
 func initApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
-	dataData, cleanup, err := data.NewData(confData, logger)
+	heWeather, cleanup, err := data.NewHeWeather(logger)
 	if err != nil {
 		return nil, nil, err
 	}
-	greeterRepo := data.NewGreeterRepo(dataData, logger)
-	greeterUsecase := biz.NewGreeterUsecase(greeterRepo, logger)
-	greeterService := service.NewGreeterService(greeterUsecase, logger)
-	heWeather, cleanup2, err := data.NewHeWeather(logger)
-	if err != nil {
-		cleanup()
-		return nil, nil, err
-	}
-	nowWeatherRepo := data.NewWeatherRepo(heWeather, logger)
-	getNowWeatherUsecase := biz.NewGetNowWeatherUsecase(nowWeatherRepo, logger)
+	weatherRepo := data.NewWeatherRepo(heWeather, logger)
+	getNowWeatherUsecase := biz.NewGetNowWeatherUsecase(weatherRepo, logger)
 	weatherService := service.NewWeatherService(getNowWeatherUsecase, logger)
-	httpServer := server.NewHTTPServer(confServer, greeterService, weatherService, logger)
-	grpcServer := server.NewGRPCServer(confServer, greeterService, logger)
+	httpServer := server.NewHTTPServer(confServer, weatherService, logger)
+	grpcServer := server.NewGRPCServer(confServer, weatherService, logger)
 	app := newApp(logger, httpServer, grpcServer)
 	return app, func() {
-		cleanup2()
 		cleanup()
 	}, nil
 }

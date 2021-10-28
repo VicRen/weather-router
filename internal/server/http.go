@@ -1,7 +1,6 @@
 package server
 
 import (
-	v1 "weather-router/api/helloworld/v1"
 	weather2 "weather-router/api/weather/v1"
 	"weather-router/internal/conf"
 	"weather-router/internal/service"
@@ -12,7 +11,7 @@ import (
 )
 
 // NewHTTPServer new an HTTP server.
-func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, weather *service.WeatherService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, weather *service.WeatherService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
@@ -28,7 +27,6 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, weather *ser
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
-	v1.RegisterGreeterHTTPServer(srv, greeter)
 	weather2.RegisterWeatherHTTPServer(srv, weather)
 	return srv
 }

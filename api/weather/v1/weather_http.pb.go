@@ -2,7 +2,7 @@
 // versions:
 // protoc-gen-go-http v2.0.5
 
-package weather
+package v1
 
 import (
 	context "context"

@@ -2,6 +2,8 @@ package data
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 	"weather-router/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -13,6 +15,12 @@ type weatherRepo struct {
 }
 
 func (w *weatherRepo) GetNowWeather(ctx context.Context, weather *biz.Weather) error {
+	ub := "https://devapi.qweather.com/v7/weather/now?"
+	body, err := http.Get(ub)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("body: %v\n", body)
 	return nil
 }
 

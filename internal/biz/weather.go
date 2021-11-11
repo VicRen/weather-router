@@ -23,7 +23,8 @@ func NewGetNowWeatherUsecase(repo WeatherRepo, logger log.Logger) *GetNowWeather
 	return &GetNowWeatherUsecase{repo: repo, log: log.NewHelper(logger)}
 }
 
-func (s *GetNowWeatherUsecase) GetNow() (Weather, error) {
+func (s *GetNowWeatherUsecase) GetNow(ctx context.Context) (Weather, error) {
+	s.repo.GetNowWeather(ctx, &Weather{})
 	return Weather{
 		"HeiHei",
 	}, nil

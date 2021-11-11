@@ -24,6 +24,7 @@ func NewWeatherService(uc *biz.GetNowWeatherUsecase, logger log.Logger) *Weather
 }
 
 func (s *WeatherService) GetNowWeather(ctx context.Context, req *pb.GetNowWeatherRequest) (*pb.GetNowWeatherResponse, error) {
+	s.uc.GetNow(ctx)
 	return &pb.GetNowWeatherResponse{
 		Message: "Testing",
 	}, nil

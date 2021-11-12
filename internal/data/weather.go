@@ -30,3 +30,7 @@ func NewWeatherRepo(weather *HeWeather, logger log.Logger) biz.WeatherRepo {
 		log:       log.NewHelper(logger),
 	}
 }
+
+func getSignature(params map[string]string, secret string) string {
+	return ""
+}

@@ -20,7 +20,7 @@ func (w *weatherRepo) GetNowWeather(ctx context.Context, weather *biz.Weather) e
 	if err != nil {
 		return err
 	}
-	fmt.Printf("body: %v\n", body)
+	fmt.Printf("body: %v\n", body.Body)
 	return nil
 }
 
